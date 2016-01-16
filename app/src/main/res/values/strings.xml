@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">WebRepairTool</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="tv_host_name">Host name:</string>
+    <string name="tv_user_name">User Name:</string>
+    <string name="tv_password">Password:</string>
+    <string name="butt_save">Save</string>
+    <string name="s_save">Save</string>
+    <string name="s_to_ssh">To SSH</string>
+</resources>
