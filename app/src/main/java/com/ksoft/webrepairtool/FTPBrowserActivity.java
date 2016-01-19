@@ -358,4 +358,9 @@ public class FTPBrowserActivity extends AppCompatActivity implements AdapterView
 
 
     }
+
+    public void toSSH(View view) {
+        Intent intent = new Intent(this, SSHCommandsActivity.class);
+        startActivity(intent);
+    }
 }

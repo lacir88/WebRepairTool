@@ -4,11 +4,20 @@ package com.ksoft.webrepairtool;
  * Created by Laci on 2015.12.29..
  */
 public class ConnectionRecord {
+
+    private String ID;
     private String host;
     private String userName;
     private String password;
 
-    public ConnectionRecord(String host, String userName, String password) {
+    /*public ConnectionRecord(String host, String userName, String password) {
+        this.host = host;
+        this.userName = userName;
+        this.password = password;
+    }*/
+
+    public ConnectionRecord(String ID, String host, String userName, String password) {
+        this.ID = ID;
         this.host = host;
         this.userName = userName;
         this.password = password;
@@ -18,6 +27,14 @@ public class ConnectionRecord {
         this.host = null;
         this.userName = null;
         this.password = null;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
     public String getHost() {

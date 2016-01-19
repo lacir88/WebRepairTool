@@ -7,4 +7,5 @@
     <string name="butt_save">Save</string>
     <string name="s_save">Save</string>
     <string name="s_to_ssh">To SSH</string>
+    <string name="s_new_ssh_command">New SSH Command</string>
 </resources>

@@ -12,6 +12,9 @@ public class NewHostActivity extends AppCompatActivity {
     private EditText et2;
     private EditText et3;
 
+    String updateId;
+    DBHandler dbhandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,21 +22,34 @@ public class NewHostActivity extends AppCompatActivity {
         et1= (EditText)findViewById(R.id.editText);
         et2= (EditText)findViewById(R.id.editText2);
         et3= (EditText)findViewById(R.id.editText3);
+
+        dbhandler = new DBHandler(this,null,null,1);
+
+        Intent intent = getIntent();
+        updateId = intent.getStringExtra("updateId");
+
+        if (updateId!=null) {
+            ConnectionRecord cr = dbhandler.selectConnectionById(updateId);
+
+            et1.setText(cr.getHost());
+            et2.setText(cr.getUserName());
+            et3.setText(cr.getPassword());
+        }
     }
 
     public void saveHost(View view){
-
-        int a = 1+1;
-
-        DBHandler dbhandler = new DBHandler(this,null,null,1);
 
         String host = et1.getText().toString();
         String username = et2.getText().toString();
         String password = et3.getText().toString();
 
-        ConnectionRecord connection = new ConnectionRecord(host,username,password);
 
-        dbhandler.addConnection(connection);
+        ConnectionRecord connection = new ConnectionRecord(updateId,host,username,password);
+
+        if (updateId==null)
+            dbhandler.addConnection(connection);
+        else
+            dbhandler.updateConnection(connection);
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

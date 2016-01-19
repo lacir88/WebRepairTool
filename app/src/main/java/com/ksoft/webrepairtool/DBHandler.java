@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +60,23 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void updateConnection(ConnectionRecord c) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_HOSTNAME, c.getHost());
+        values.put(COLUMN_USERNAME, c.getUserName());
+        values.put(COLUMN_PASSWORD, c.getPassword());
+
+        String where = "id=?";
+        String[] whereArgs = new String[] {c.getID()};
+
+        db.update(TABLE_CONNECTIONS, values, where, whereArgs);
+
+        db.close();
+    }
+
     public List<ConnectionRecord> findAllConnectionRecords () {
         List<ConnectionRecord> listcr = new ArrayList<ConnectionRecord>();
 
@@ -70,19 +88,48 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 ConnectionRecord cr = new ConnectionRecord();
+                cr.setID(Integer.toString(cursor.getInt(0)));
                 cr.setHost(cursor.getString(1));
                 cr.setUserName(cursor.getString(2));
                 cr.setPassword(cursor.getString(3));
                 listcr.add(cr);
             } while (cursor.moveToNext());
         }
-
+        db.close();
         return listcr;
     }
 
+    public ConnectionRecord selectConnectionById(String connectionId) {
 
 
+        String query = "Select * FROM " + TABLE_CONNECTIONS + " WHERE " + COLUMN_ID + " =  \"" + connectionId + "\"";
 
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        ConnectionRecord cr = new ConnectionRecord();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+
+            cr.setID(Integer.toString(cursor.getInt(0)));
+            cr.setHost(cursor.getString(1));
+            cr.setUserName(cursor.getString(2));
+            cr.setPassword(cursor.getString(3));
+
+            /*product.setID(Integer.parseInt(cursor.getString(0)));
+            product.setProductName(cursor.getString(1));
+            product.setQuantity(Integer.parseInt(cursor.getString(2)));*/
+
+            cursor.close();
+        } else {
+            cr = null;
+        }
+        db.close();
+        return cr;
+
+    }
 
 
     /*public Product findProduct(String productname) {

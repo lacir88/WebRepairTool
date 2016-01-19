@@ -3,6 +3,7 @@ package com.ksoft.webrepairtool;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,7 +15,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     Object[] stringArray;
 
     @Override
@@ -33,7 +34,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ListView listView1 = (ListView) findViewById(R.id.listView1);
         listView1.setAdapter(adapter);
 
+        listView1.setLongClickable(true);
         listView1.setOnItemClickListener(this);
+        listView1.setOnItemLongClickListener(this);
 
     }
 
@@ -53,13 +56,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         String item = ((TextView) view).getText().toString();
 
-        Toast.makeText(getBaseContext(), "connecting", Toast.LENGTH_LONG).show();
-
         Intent intent = new Intent(this, FTPBrowserActivity.class);
         intent.putExtra("host", ((ConnectionRecord)stringArray[position]).getHost());
         intent.putExtra("username", ((ConnectionRecord) stringArray[position]).getUserName());
         intent.putExtra("password", ((ConnectionRecord)stringArray[position]).getPassword());
         startActivity(intent);
 
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                   int pos, long id) {
+
+        Intent intent = new Intent(this, NewHostActivity.class);
+        intent.putExtra("updateId", ((ConnectionRecord)stringArray[pos]).getID() );
+        startActivity(intent);
+        return true;
     }
 }

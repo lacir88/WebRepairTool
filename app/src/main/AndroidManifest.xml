@@ -19,7 +19,9 @@
         </activity>
         <activity android:name=".NewHostActivity" />
         <activity android:name=".FTPBrowserActivity" />
-        <activity android:name=".FileViewerActivity"></activity>
+        <activity android:name=".FileViewerActivity" />
+        <activity android:name=".SSHCommandsActivity" />
+        <activity android:name=".NewSSHCommandActivity"></activity>
     </application>
 
 </manifest>
