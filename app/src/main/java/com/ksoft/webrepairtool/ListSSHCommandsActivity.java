@@ -10,8 +10,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -67,7 +70,7 @@ public class ListSSHCommandsActivity extends AppCompatActivity implements Adapte
                 session.setConfig(prop);
 
                 session.connect();
-                //android.os.SystemClock.sleep(1000);
+                //
 
                 // SSH Channel
                 ChannelExec channelssh = (ChannelExec)
@@ -77,6 +80,9 @@ public class ListSSHCommandsActivity extends AppCompatActivity implements Adapte
                 // Execute command
                 channelssh.setCommand(sshCommand.getCommandString());
                 channelssh.connect();
+                //Toast.makeText(getApplicationContext(), "Connecting...", Toast.LENGTH_SHORT).show();
+                //Todo: ne fix ido legyen a valaszra
+                android.os.SystemClock.sleep(500);
                 channelssh.disconnect();
             } catch (JSchException e) {
                 Log.d("WebRepairTool","JSchException");
@@ -109,6 +115,7 @@ public class ListSSHCommandsActivity extends AppCompatActivity implements Adapte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+        Toast.makeText(getApplicationContext(), "Connecting...", Toast.LENGTH_SHORT).show();
         new SSHConnectionTask().execute((SSHCommand) commands[position]);
 
         /*String item = ((TextView) view).getText().toString();
