@@ -10,12 +10,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.commons.net.PrintCommandListener;
+import com.ksoft.webrepairtool.Beans.FileListEntry;
+
 import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPConnectionClosedException;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
@@ -26,12 +25,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class FTPBrowserActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
@@ -60,9 +55,9 @@ public class FTPBrowserActivity extends AppCompatActivity implements AdapterView
             /*int size = l.size();
             incomingFileList = l;
 
-            stringArray = l.toArray();
+            commands = l.toArray();
 
-            ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(FTPBrowserActivity.this, android.R.layout.simple_list_item_1, stringArray);
+            ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(FTPBrowserActivity.this, android.R.layout.simple_list_item_1, commands);
             ListView listView2 = (ListView) findViewById(R.id.listView2);
             listView2.setAdapter(adapter);*/
             //ListView listView2 = (ListView) findViewById(R.id.listView2);
@@ -114,7 +109,7 @@ public class FTPBrowserActivity extends AppCompatActivity implements AdapterView
         }
         protected void onPostExecute(String fileName) {
             new FTPlogoutCloseConnectionTask().execute();
-            Intent intent = new Intent(FTPBrowserActivity.this, FileViewerActivity.class);
+            Intent intent = new Intent(FTPBrowserActivity.this, FileEditorActivity.class);
             intent.putExtra("host", host);
             intent.putExtra("username", username);
             intent.putExtra("password", password);
@@ -360,7 +355,7 @@ public class FTPBrowserActivity extends AppCompatActivity implements AdapterView
     }
 
     public void toSSH(View view) {
-        Intent intent = new Intent(this, SSHCommandsActivity.class);
+        Intent intent = new Intent(this, ListSSHCommandsActivity.class);
         startActivity(intent);
     }
 }

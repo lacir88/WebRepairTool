@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class FileViewerActivity extends AppCompatActivity {
+public class FileEditorActivity extends AppCompatActivity {
 
 
     String host;

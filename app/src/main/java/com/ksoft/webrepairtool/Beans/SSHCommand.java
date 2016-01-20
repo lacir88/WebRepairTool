@@ -1,13 +1,14 @@
-package com.ksoft.webrepairtool;
+package com.ksoft.webrepairtool.Beans;
 
 /**
  * Created by Laci on 2016.01.19..
  */
 public class SSHCommand {
 
-    String commandName, commandString, userName, password, host;
+    String commandName, commandString, userName, password, host, id;
 
-    public SSHCommand(String host, String userName, String password, String commandName, String commandString) {
+    public SSHCommand(String id, String host, String userName, String password, String commandName, String commandString) {
+        this.id = id;
         this.host = host;
         this.userName = userName;
         this.password = password;
@@ -15,8 +16,10 @@ public class SSHCommand {
         this.commandString = commandString;
     }
 
-    public SSHCommand() {
+    public  SSHCommand () {
+        
     }
+
 
     public String getCommandName() {
         return commandName;
@@ -24,6 +27,14 @@ public class SSHCommand {
 
     public void setCommandName(String commandName) {
         this.commandName = commandName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCommandString() {

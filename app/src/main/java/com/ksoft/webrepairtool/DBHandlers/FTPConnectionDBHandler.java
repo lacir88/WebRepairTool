@@ -1,4 +1,4 @@
-package com.ksoft.webrepairtool;
+package com.ksoft.webrepairtool.DBHandlers;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,14 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.sql.Connection;
+import com.ksoft.webrepairtool.Beans.ConnectionRecord;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Laci on 2015.12.29..
  */
-public class DBHandler extends SQLiteOpenHelper {
+public class FTPConnectionDBHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "WebRepairToolDB.db";
@@ -24,8 +25,8 @@ public class DBHandler extends SQLiteOpenHelper {
     public static final String COLUMN_USERNAME = "username";
     public static final String COLUMN_PASSWORD = "password";
 
-    public DBHandler(Context context, String name,
-                       SQLiteDatabase.CursorFactory factory, int version) {
+    public FTPConnectionDBHandler(Context context, String name,
+                                  SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 

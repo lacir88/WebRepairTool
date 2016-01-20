@@ -1,10 +1,13 @@
-package com.ksoft.webrepairtool;
+package com.ksoft.webrepairtool.DBHandlers;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.ksoft.webrepairtool.Beans.ConnectionRecord;
+import com.ksoft.webrepairtool.Beans.SSHCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +18,7 @@ import java.util.List;
 public class SSHDBHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "WebRepairToolDB.db";
+    private static final String DATABASE_NAME = "WebRepairTool_SSH_DB.db";
     private static final String TABLE_SSHCOMMANDS = "sshCommands";
 
     private static final String COLUMN_ID = "id";
@@ -76,6 +79,7 @@ public class SSHDBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 SSHCommand cr = new SSHCommand();
+                cr.setId(Integer.toString(cursor.getInt(0)));
                 cr.setHost(cursor.getString(1));
                 cr.setUserName(cursor.getString(2));
                 cr.setPassword(cursor.getString(3));
@@ -89,4 +93,52 @@ public class SSHDBHandler extends SQLiteOpenHelper {
     }
 
 
+    public SSHCommand selectCommandById(String updateId) {
+
+        String query = "Select * FROM " + TABLE_SSHCOMMANDS + " WHERE " + COLUMN_ID + " =  \"" + updateId + "\"";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        SSHCommand sshCommand = new SSHCommand();
+
+        if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
+
+            sshCommand.setId(Integer.toString(cursor.getInt(0)));
+            sshCommand.setHost(cursor.getString(1));
+            sshCommand.setUserName(cursor.getString(2));
+            sshCommand.setPassword(cursor.getString(3));
+            sshCommand.setCommandName(cursor.getString(4));
+            sshCommand.setCommandString(cursor.getString(5));
+
+            cursor.close();
+        } else {
+            sshCommand = null;
+        }
+        db.close();
+        return sshCommand;
+
+    }
+
+    public void updateCommand(SSHCommand sshCommand) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_HOSTNAME, sshCommand.getHost());
+        values.put(COLUMN_USERNAME, sshCommand.getUserName());
+        values.put(COLUMN_PASSWORD, sshCommand.getPassword());
+        values.put(COLUMN_COMMAND_NAME, sshCommand.getCommandName());
+        values.put(COLUMN_COMMAND_STRING, sshCommand.getCommandString());
+
+        String where = "id=?";
+        String[] whereArgs = new String[]{sshCommand.getId()};
+
+        db.update(TABLE_SSHCOMMANDS, values, where, whereArgs);
+
+        db.close();
+
+    }
 }

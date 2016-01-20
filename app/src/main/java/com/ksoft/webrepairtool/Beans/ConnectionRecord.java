@@ -1,4 +1,4 @@
-package com.ksoft.webrepairtool;
+package com.ksoft.webrepairtool.Beans;
 
 /**
  * Created by Laci on 2015.12.29..

@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.ksoft.webrepairtool.Beans.ConnectionRecord;
+import com.ksoft.webrepairtool.DBHandlers.FTPConnectionDBHandler;
+
 public class NewHostActivity extends AppCompatActivity {
 
     private EditText et1;
@@ -13,7 +16,7 @@ public class NewHostActivity extends AppCompatActivity {
     private EditText et3;
 
     String updateId;
-    DBHandler dbhandler;
+    FTPConnectionDBHandler dbhandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +26,7 @@ public class NewHostActivity extends AppCompatActivity {
         et2= (EditText)findViewById(R.id.editText2);
         et3= (EditText)findViewById(R.id.editText3);
 
-        dbhandler = new DBHandler(this,null,null,1);
+        dbhandler = new FTPConnectionDBHandler(this,null,null,1);
 
         Intent intent = getIntent();
         updateId = intent.getStringExtra("updateId");
@@ -51,7 +54,7 @@ public class NewHostActivity extends AppCompatActivity {
         else
             dbhandler.updateConnection(connection);
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ListFTPConnectionsActivity.class);
         startActivity(intent);
     }
 

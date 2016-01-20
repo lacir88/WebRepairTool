@@ -1,4 +1,4 @@
-package com.ksoft.webrepairtool;
+package com.ksoft.webrepairtool.Beans;
 
 /**
  * Created by Laci on 2016.01.11..
@@ -27,7 +27,7 @@ public class FileListEntry {
     }
     @Override
     public String toString() {
-        return type + ", name=" + name + "]";
+        return type + ", name=" + name;
     }
 
 }
