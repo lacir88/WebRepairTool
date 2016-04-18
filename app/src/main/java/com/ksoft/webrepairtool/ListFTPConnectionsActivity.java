@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.ksoft.webrepairtool.Beans.ConnectionRecord;
 import com.ksoft.webrepairtool.DBHandlers.FTPConnectionDBHandler;
+import com.ksoft.webrepairtool.RemoteDirectoryBrowserPage.DirecotyBrowserActivity;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class ListFTPConnectionsActivity extends AppCompatActivity implements Ada
     }
 
     public void newHost(View view) {
-        Intent intent = new Intent(this, NewHostActivity.class);
+        Intent intent = new Intent(this, NewFTPHostActivity.class);
         startActivity(intent);
     }
 
@@ -55,7 +56,7 @@ public class ListFTPConnectionsActivity extends AppCompatActivity implements Ada
 
         String item = ((TextView) view).getText().toString();
 
-        Intent intent = new Intent(this, FTPBrowserActivity.class);
+        Intent intent = new Intent(this, DirecotyBrowserActivity.class);
         intent.putExtra("host", ((ConnectionRecord)stringArray[position]).getHost());
         intent.putExtra("username", ((ConnectionRecord) stringArray[position]).getUserName());
         intent.putExtra("password", ((ConnectionRecord)stringArray[position]).getPassword());
@@ -67,7 +68,7 @@ public class ListFTPConnectionsActivity extends AppCompatActivity implements Ada
     public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                    int pos, long id) {
 
-        Intent intent = new Intent(this, NewHostActivity.class);
+        Intent intent = new Intent(this, NewFTPHostActivity.class);
         intent.putExtra("updateId", ((ConnectionRecord)stringArray[pos]).getID() );
         startActivity(intent);
         return true;

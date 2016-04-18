@@ -9,7 +9,7 @@ import android.widget.EditText;
 import com.ksoft.webrepairtool.Beans.ConnectionRecord;
 import com.ksoft.webrepairtool.DBHandlers.FTPConnectionDBHandler;
 
-public class NewHostActivity extends AppCompatActivity {
+public class NewFTPHostActivity extends AppCompatActivity {
 
     private EditText et1;
     private EditText et2;

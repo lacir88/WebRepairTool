@@ -9,18 +9,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
-import com.ksoft.webrepairtool.Beans.ConnectionRecord;
 import com.ksoft.webrepairtool.Beans.SSHCommand;
 import com.ksoft.webrepairtool.DBHandlers.SSHDBHandler;
+import com.ksoft.webrepairtool.SSHCommandsPage.NewSSHCommandActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;

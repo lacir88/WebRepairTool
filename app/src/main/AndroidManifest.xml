@@ -17,11 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewHostActivity" />
-        <activity android:name=".FTPBrowserActivity" />
+        <activity android:name=".NewFTPHostActivity" />
+        <activity android:name=".RemoteDirectoryBrowserPage.DirecotyBrowserActivity" />
         <activity android:name=".FileEditorActivity" />
         <activity android:name=".ListSSHCommandsActivity" />
-        <activity android:name=".NewSSHCommandActivity" />
+        <activity android:name=".SSHCommandsPage.NewSSHCommandActivity" />
         <activity android:name=".DisplaySSHReplyActivity"></activity>
     </application>
 

@@ -1,4 +1,4 @@
-package com.ksoft.webrepairtool;
+package com.ksoft.webrepairtool.RemoteDirectoryBrowserPage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.ksoft.webrepairtool.Beans.FileListEntry;
+import com.ksoft.webrepairtool.FileEditorActivity;
+import com.ksoft.webrepairtool.ListSSHCommandsActivity;
+import com.ksoft.webrepairtool.R;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPConnectionClosedException;
@@ -28,7 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FTPBrowserActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+public class DirecotyBrowserActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
     Object[] stringArray;
     List<FileListEntry> incomingFileList;
@@ -57,7 +59,7 @@ public class FTPBrowserActivity extends AppCompatActivity implements AdapterView
 
             commands = l.toArray();
 
-            ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(FTPBrowserActivity.this, android.R.layout.simple_list_item_1, commands);
+            ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(DirecotyBrowserActivity.this, android.R.layout.simple_list_item_1, commands);
             ListView listView2 = (ListView) findViewById(R.id.listView2);
             listView2.setAdapter(adapter);*/
             //ListView listView2 = (ListView) findViewById(R.id.listView2);
@@ -109,7 +111,7 @@ public class FTPBrowserActivity extends AppCompatActivity implements AdapterView
         }
         protected void onPostExecute(String fileName) {
             new FTPlogoutCloseConnectionTask().execute();
-            Intent intent = new Intent(FTPBrowserActivity.this, FileEditorActivity.class);
+            Intent intent = new Intent(DirecotyBrowserActivity.this, FileEditorActivity.class);
             intent.putExtra("host", host);
             intent.putExtra("username", username);
             intent.putExtra("password", password);
@@ -145,28 +147,29 @@ public class FTPBrowserActivity extends AppCompatActivity implements AdapterView
         }
     }
 
-    private class FTPListDirTask extends AsyncTask<String, Void, List<FileListEntry>> {
-        protected List<FileListEntry> doInBackground(String... args) {
-            List<FileListEntry> fileList = new ArrayList<FileListEntry>();
+    private class FTPListDirTask extends AsyncTask<String, Void, ArrayList<FileListEntry>> {
+        protected ArrayList<FileListEntry> doInBackground(String... args) {
+            ArrayList<FileListEntry> fileList = new ArrayList<FileListEntry>();
                 try {
-                    fileList.add(new FileListEntry("Directory", ".."));
+                    //way back to outer directory
+                    fileList.add(new FileListEntry(R.drawable.folder, ".."));
                     String remote = null;
                     for (FTPFile f : ftps.mlistDir(remote)) {
                         //System.out.println(f.getRawListing());
                         //String[] separated = (f.getRawListing()).split(";");
 
-                        String type = "";
+                        int typePicturePath = -1;
                         if (f.isDirectory()) {
-                            type = "Directory";
+                            typePicturePath = R.drawable.folder;
                         }
                         if (f.isFile()) {
-                            type = "File";
+                            typePicturePath = R.drawable.file;
                         }
                         if (f.isSymbolicLink()) {
-                            type = "SymbolicLink";
+                            typePicturePath = R.drawable.file;
                         }
 
-                        fileList.add(new FileListEntry(type, f.getName()));
+                        fileList.add(new FileListEntry(typePicturePath, f.getName()));
 
                         //System.out.println(f.toFormattedString(displayTimeZoneId));
                     }
@@ -177,15 +180,33 @@ public class FTPBrowserActivity extends AppCompatActivity implements AdapterView
             return fileList;
         }
 
-        protected void onPostExecute(List<FileListEntry> l) {
+        protected void onPostExecute(ArrayList<FileListEntry> l) {
             int size = l.size();
             incomingFileList = l;
 
             stringArray = l.toArray();
 
-            ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(FTPBrowserActivity.this, android.R.layout.simple_list_item_1, stringArray);
+            //ArrayAdapter<Object> adapter = new ArrayAdapter<Object>(DirecotyBrowserActivity.this, android.R.layout.simple_list_item_1, stringArray);
+            //ListView listView2 = (ListView) findViewById(R.id.listView2);
+            //listView2.setAdapter(adapter);
+
+
+
+            // if extending Activity
+            //setContentView(R.layout.activity_main);
+
+            // 1. pass context and data to the custom adapter
+            CustomListAdapter adapter = new CustomListAdapter(DirecotyBrowserActivity.this, l);
+
+            // if extending Activity 2. Get ListView from activity_main.xml
+            //ListView listView = (ListView) findViewById(R.id.listview);
+
+            // 3. setListAdapter
+            //listView.setAdapter(adapter); if extending Activity
             ListView listView2 = (ListView) findViewById(R.id.listView2);
             listView2.setAdapter(adapter);
+
+
         }
     }
 
@@ -307,6 +328,8 @@ public class FTPBrowserActivity extends AppCompatActivity implements AdapterView
         ListView listView2 = (ListView) findViewById(R.id.listView2);
         listView2.setOnItemClickListener(this);
 
+        //CustomListAdapter adapter = new CustomListAdapter(this, generateData());
+
 
     }
 
@@ -342,11 +365,11 @@ public class FTPBrowserActivity extends AppCompatActivity implements AdapterView
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if (incomingFileList.get(position).getType().equals("Directory")) {
+        if (incomingFileList.get(position).getTypePicturePath()==(R.drawable.folder)) {
                 String folderName =incomingFileList.get(position).getName();
                 new FtpChangeWorkingDirTask().execute(folderName);
         }
-        if (incomingFileList.get(position).getType().equals("File")) {
+        if (incomingFileList.get(position).getTypePicturePath()==(R.drawable.file)) {
             String fileName = incomingFileList.get(position).getName();
             new FtpDownloadTask().execute(fileName);
         }

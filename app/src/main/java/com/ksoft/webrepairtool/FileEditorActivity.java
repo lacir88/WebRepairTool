@@ -7,15 +7,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import org.apache.commons.net.ftp.FTPSClient;
+import com.ksoft.webrepairtool.RemoteDirectoryBrowserPage.DirecotyBrowserActivity;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class FileEditorActivity extends AppCompatActivity {
@@ -95,7 +92,7 @@ public class FileEditorActivity extends AppCompatActivity {
     public void uploadFile(View view) {
         writeTempFile();
 
-        Intent intent = new Intent(this, FTPBrowserActivity.class);
+        Intent intent = new Intent(this, DirecotyBrowserActivity.class);
         intent.putExtra("host",host);
         intent.putExtra("username",username);
         intent.putExtra("password",password);
