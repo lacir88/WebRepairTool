@@ -1,4 +1,4 @@
-package com.ksoft.webrepairtool.RemoteDirectoryBrowserPage;
+package com.ksoft.webrepairtool.Activities.RemoteDirectoryBrowserPage;
 
 /**
  * Created by Laci on 2016.01.11..

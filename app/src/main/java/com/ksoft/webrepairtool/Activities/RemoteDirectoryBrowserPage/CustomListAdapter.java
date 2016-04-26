@@ -1,4 +1,4 @@
-package com.ksoft.webrepairtool.RemoteDirectoryBrowserPage;
+package com.ksoft.webrepairtool.Activities.RemoteDirectoryBrowserPage;
 
 import android.content.Context;
 import android.view.LayoutInflater;

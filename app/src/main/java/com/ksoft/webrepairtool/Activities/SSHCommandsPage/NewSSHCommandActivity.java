@@ -1,4 +1,4 @@
-package com.ksoft.webrepairtool.SSHCommandsPage;
+package com.ksoft.webrepairtool.Activities.SSHCommandsPage;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 import com.ksoft.webrepairtool.Beans.SSHCommand;
 import com.ksoft.webrepairtool.DBHandlers.SSHDBHandler;
-import com.ksoft.webrepairtool.ListSSHCommandsActivity;
+import com.ksoft.webrepairtool.Activities.ListSSHCommandsActivity;
 import com.ksoft.webrepairtool.R;
 
 public class NewSSHCommandActivity extends AppCompatActivity {

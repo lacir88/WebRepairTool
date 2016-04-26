@@ -1,4 +1,4 @@
-package com.ksoft.webrepairtool;
+package com.ksoft.webrepairtool.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.widget.EditText;
 
 import com.ksoft.webrepairtool.Beans.ConnectionRecord;
 import com.ksoft.webrepairtool.DBHandlers.FTPConnectionDBHandler;
+import com.ksoft.webrepairtool.R;
 
 public class NewFTPHostActivity extends AppCompatActivity {
 

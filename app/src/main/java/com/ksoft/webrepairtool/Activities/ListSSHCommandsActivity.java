@@ -1,4 +1,4 @@
-package com.ksoft.webrepairtool;
+package com.ksoft.webrepairtool.Activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,7 +17,8 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.ksoft.webrepairtool.Beans.SSHCommand;
 import com.ksoft.webrepairtool.DBHandlers.SSHDBHandler;
-import com.ksoft.webrepairtool.SSHCommandsPage.NewSSHCommandActivity;
+import com.ksoft.webrepairtool.R;
+import com.ksoft.webrepairtool.Activities.SSHCommandsPage.NewSSHCommandActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -67,7 +68,6 @@ public class ListSSHCommandsActivity extends AppCompatActivity implements Adapte
                 session.setConfig(prop);
 
                 session.connect();
-                //
 
                 // SSH Channel
                 ChannelExec channelssh = (ChannelExec)
@@ -77,12 +77,25 @@ public class ListSSHCommandsActivity extends AppCompatActivity implements Adapte
                 // Execute command
                 channelssh.setCommand(sshCommand.getCommandString());
                 channelssh.connect();
-                //Toast.makeText(getApplicationContext(), "Connecting...", Toast.LENGTH_SHORT).show();
-                //Todo: ne fix ido legyen a valaszra
-                android.os.SystemClock.sleep(500);
+                //Toast.makeText(getApplicationContext(), "Server recieved request, waiting for reply...", Toast.LENGTH_SHORT).show();
+                int timeCounter;
+
+                //Addig varunk amig még semmi valasz nem jött
+                for (timeCounter = 0; timeCounter < 10 /*&& baos.toString().equals("") */; timeCounter++) {
+                    String proba = baos.toString();
+                    android.os.SystemClock.sleep(100);
+                }
+                //Ha elkezdett jöni, akkor még 200 milisec van , hogy megérkezzen minden.
+                android.os.SystemClock.sleep(200);
+
                 channelssh.disconnect();
             } catch (JSchException e) {
                 Log.d("WebRepairTool","JSchException");
+
+                if (e.toString().equals("com.jcraft.jsch.JSchException: Auth fail")) {
+                    return "Wrong username or password.";
+                }
+                return "Failed to connect to SSH server.";
             }
 
             return baos.toString();

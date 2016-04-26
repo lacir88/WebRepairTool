@@ -1,4 +1,4 @@
-package com.ksoft.webrepairtool;
+package com.ksoft.webrepairtool.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.ksoft.webrepairtool.RemoteDirectoryBrowserPage.DirecotyBrowserActivity;
+import com.ksoft.webrepairtool.R;
+import com.ksoft.webrepairtool.Activities.RemoteDirectoryBrowserPage.DirecotyBrowserActivity;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -43,6 +44,7 @@ public class FileEditorActivity extends AppCompatActivity {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 sb.append(line);
+                sb.append('\n');
             }
             bufferedReader.close();
             isr.close();

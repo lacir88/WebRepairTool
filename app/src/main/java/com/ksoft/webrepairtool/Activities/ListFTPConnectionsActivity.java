@@ -1,4 +1,4 @@
-package com.ksoft.webrepairtool;
+package com.ksoft.webrepairtool.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +11,8 @@ import android.widget.TextView;
 
 import com.ksoft.webrepairtool.Beans.ConnectionRecord;
 import com.ksoft.webrepairtool.DBHandlers.FTPConnectionDBHandler;
-import com.ksoft.webrepairtool.RemoteDirectoryBrowserPage.DirecotyBrowserActivity;
+import com.ksoft.webrepairtool.R;
+import com.ksoft.webrepairtool.Activities.RemoteDirectoryBrowserPage.DirecotyBrowserActivity;
 
 import java.util.List;
 

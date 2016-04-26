@@ -1,4 +1,4 @@
-package com.ksoft.webrepairtool.RemoteDirectoryBrowserPage;
+package com.ksoft.webrepairtool.Activities.RemoteDirectoryBrowserPage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,12 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.ksoft.webrepairtool.FileEditorActivity;
-import com.ksoft.webrepairtool.ListSSHCommandsActivity;
+import com.ksoft.webrepairtool.Activities.FileEditorActivity;
+import com.ksoft.webrepairtool.Activities.ListSSHCommandsActivity;
 import com.ksoft.webrepairtool.R;
 
 import org.apache.commons.net.ftp.FTP;
@@ -42,18 +41,18 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
     String shouldBeUploaded ;
 
     private class FtpConnectionTask extends AsyncTask<String, Void, String> {
+
         protected String doInBackground(String... args) {
 
             String host = args[0];
             String username = args[1];
             String password = args[2];
-            connectAndLogin(host, username, password);
+            String resultString = connectAndLogin(host, username, password);
 
-            return null;
+            return resultString;
 
         }
-
-        protected void onPostExecute(String a) {
+        protected void onPostExecute(String resultString) {
             /*int size = l.size();
             incomingFileList = l;
 
@@ -63,10 +62,13 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
             ListView listView2 = (ListView) findViewById(R.id.listView2);
             listView2.setAdapter(adapter);*/
             //ListView listView2 = (ListView) findViewById(R.id.listView2);
-                new FTPListDirTask().execute();
 
+            Toast toast = Toast.makeText(getApplicationContext(), resultString, Toast.LENGTH_LONG);
+            toast.show();
 
+            new FTPListDirTask().execute();
         }
+
     }
 
     private class FTPlogoutCloseConnectionTask extends AsyncTask<Void, Void, Void> {
@@ -211,14 +213,10 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
     }
 
 
-    private void connectAndLogin (String server, String username, String password) {
-
+    private String connectAndLogin (String server, String username, String password) {
         boolean binaryTransfer = false, error = false;
-
         String protocol = "SSL";    // SSL/TLS
-
         ftps = new FTPSClient(protocol);
-
         try
         {
             int reply;
@@ -231,11 +229,11 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
             if (!FTPReply.isPositiveCompletion(reply))
             {
                 ftps.disconnect();
-                Toast.makeText(getBaseContext(), "Unable to connect.", Toast.LENGTH_LONG).show();
-                System.exit(1);
+               //Toast.makeText(getBaseContext(), "Unable to connect.", Toast.LENGTH_LONG).show();
+                //System.exit(1);
             }
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             if (ftps.isConnected())
             {
@@ -243,17 +241,18 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
                 {
                     ftps.disconnect();
                 }
-                catch (IOException f)
+                catch (Exception f)
                 {
                     // do nothing
                 }
-            }
-            Toast.makeText(getBaseContext(), "Unable to connect.", Toast.LENGTH_LONG).show();
-            //e.printStackTrace();
-            System.exit(1);
-        }
 
-        __main:
+
+            }
+            //Toast.makeText(/*getBaseContext(),*/getApplicationContext(), "Unable to connect.", Toast.LENGTH_LONG).show();
+            //e.printStackTrace();
+           // System.exit(1);
+            return "Network connection failed.";
+        }
         try
         {
             ftps.setBufferSize(1000);
@@ -263,11 +262,10 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
                 ftps.logout();
                 error = true;
 
-                Toast.makeText(getBaseContext(), "Login failed.", Toast.LENGTH_LONG).show();
-                break __main;
+                return "Username or password incorrect.";
+                //Toast.makeText(getBaseContext(), "Login failed.", Toast.LENGTH_LONG).show();
+
             }
-
-
             System.out.println("Remote system is " + ftps.getSystemName());
 
             if (binaryTransfer) ftps.setFileType(FTP.BINARY_FILE_TYPE);
@@ -276,14 +274,12 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
             // behind firewalls these days.
             ftps.enterLocalPassiveMode();
             ftps.execPROT("P");
-
-
         }
         catch (FTPConnectionClosedException e)
         {
             error = true;
-            System.err.println("Server closed connection.");
-            e.printStackTrace();
+            //System.err.println("Server closed connection.");
+            //e.printStackTrace();
             if (ftps.isConnected())
             {
                 try
@@ -311,7 +307,9 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
                     // do nothing
                 }
             }
+           return "Username or password incorrect.";
         }
+        return "Login succesful.";
     }
 
     @Override
@@ -329,8 +327,6 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
         listView2.setOnItemClickListener(this);
 
         //CustomListAdapter adapter = new CustomListAdapter(this, generateData());
-
-
     }
 
     protected void onResume() {

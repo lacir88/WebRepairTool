@@ -1,0 +1,5 @@
+
+- SSH szerver off
+ - kisebb GUI javítások feliratok
+ - mélyebb könyvtárból letöltött oda is menjen vissza
+ - scrollozható textview I II
