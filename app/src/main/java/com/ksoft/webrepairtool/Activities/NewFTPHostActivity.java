@@ -22,6 +22,7 @@ public class NewFTPHostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("New FTPS Connection");
         setContentView(R.layout.activity_new_host);
         et1= (EditText)findViewById(R.id.editText);
         et2= (EditText)findViewById(R.id.editText2);

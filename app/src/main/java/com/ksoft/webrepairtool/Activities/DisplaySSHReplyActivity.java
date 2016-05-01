@@ -14,6 +14,7 @@ public class DisplaySSHReplyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Reply from SSH server");
         setContentView(R.layout.activity_display_sshreply);
 
         Intent i = getIntent();

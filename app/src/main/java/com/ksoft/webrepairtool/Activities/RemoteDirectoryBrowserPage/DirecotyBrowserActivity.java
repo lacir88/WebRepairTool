@@ -315,6 +315,7 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Remote directory browser");
         setContentView(R.layout.activity_ftpbrowser);
 
         Intent intent = getIntent();

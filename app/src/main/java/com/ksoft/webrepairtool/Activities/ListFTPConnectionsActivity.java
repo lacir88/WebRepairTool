@@ -22,6 +22,7 @@ public class ListFTPConnectionsActivity extends AppCompatActivity implements Ada
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("FTPS Connections");
         setContentView(R.layout.activity_main);
     }
 

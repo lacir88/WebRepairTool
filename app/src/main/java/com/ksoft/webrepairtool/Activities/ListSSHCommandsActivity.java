@@ -31,6 +31,7 @@ public class ListSSHCommandsActivity extends AppCompatActivity implements Adapte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("SSH Connections");
         setContentView(R.layout.activity_sshcommands);
     }
 

@@ -26,6 +26,7 @@ public class NewSSHCommandActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("New SSH command");
         setContentView(R.layout.activity_new_sshcommand);
 
         dbhandler = new SSHDBHandler(this,null,null,1);

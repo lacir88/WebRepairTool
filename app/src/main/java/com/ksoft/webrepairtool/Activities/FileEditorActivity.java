@@ -27,6 +27,7 @@ public class FileEditorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("Edit remote file");
         setContentView(R.layout.activity_file_viewer);
 
         StringBuilder sb= new StringBuilder();
