@@ -21,7 +21,7 @@
         <activity android:name=".Activities.RemoteDirectoryBrowserPage.DirecotyBrowserActivity" />
         <activity android:name=".Activities.FileEditorActivity" />
         <activity android:name=".Activities.ListSSHCommandsActivity" />
-        <activity android:name=".Activities.SSHCommandsPage.NewSSHCommandActivity" />
+        <activity android:name=".Activities.NewSSHCommandsPage.NewSSHCommandActivity" />
         <activity android:name=".Activities.DisplaySSHReplyActivity"></activity>
     </application>
 

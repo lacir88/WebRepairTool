@@ -1,8 +1,11 @@
 package com.ksoft.webrepairtool.Activities.RemoteDirectoryBrowserPage;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.AsyncTask;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import com.ksoft.webrepairtool.Activities.FileEditorActivity;
 import com.ksoft.webrepairtool.Activities.ListSSHCommandsActivity;
 import com.ksoft.webrepairtool.R;
+import com.ksoft.webrepairtool.Services.FTPSService;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPConnectionClosedException;
@@ -39,6 +43,7 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
     String username ;
     String password;
     String shouldBeUploaded ;
+    String workdir;
 
     private class FtpConnectionTask extends AsyncTask<String, Void, String> {
 
@@ -93,31 +98,42 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
         }
     }
 
-    private class FtpDownloadTask extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... args) {
+    private class FtpDownloadTask extends AsyncTask<String, Void, ArrayList<String>> {
+        protected ArrayList<String> doInBackground(String... args) {
+
+            ArrayList<String> list = new ArrayList<String>();
 
             String fileName = args[0];
-
+            String dir="";
             try {
                 FileOutputStream outputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
 
                 ftps.retrieveFile(fileName, outputStream);
-
+                dir=ftps.printWorkingDirectory();
                 outputStream.close();
             } catch (FileNotFoundException e){
                 //
             }catch (IOException e){
                 //
             }
-            return fileName;
+
+            list.add(fileName);
+            list.add(dir);
+
+            return list;
         }
-        protected void onPostExecute(String fileName) {
+        protected void onPostExecute(ArrayList<String> list) {
+            String fileName = list.get(0);
+            String dir = list.get(1);
+
             new FTPlogoutCloseConnectionTask().execute();
             Intent intent = new Intent(DirecotyBrowserActivity.this, FileEditorActivity.class);
             intent.putExtra("host", host);
             intent.putExtra("username", username);
             intent.putExtra("password", password);
             intent.putExtra("filename", fileName);
+
+            intent.putExtra("workdir",dir);
             startActivity(intent);
         }
     }
@@ -126,11 +142,14 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
         protected String doInBackground(String... args) {
 
             String fileName = args[0];
+            String dir = args[1];
             Boolean success=false;
             try {
                 /*InputStream input;
                 input = new FileInputStream(fileName);*/
                 FileInputStream input = openFileInput(fileName);
+                if (dir != null && dir != "")
+                    ftps.changeWorkingDirectory(dir);
                 success = ftps.storeFile(fileName, input);
                 input.close();
             } catch (FileNotFoundException e){
@@ -323,7 +342,10 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
         username = intent.getStringExtra("username");
         password = intent.getStringExtra("password");
         shouldBeUploaded = intent.getStringExtra("shouldBeUploaded");
+        workdir = intent.getStringExtra("workdir");
 
+
+        String temp = "asfdsfs";
         ListView listView2 = (ListView) findViewById(R.id.listView2);
         listView2.setOnItemClickListener(this);
 
@@ -334,7 +356,7 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
         super.onResume();
         new FtpConnectionTask().execute(host, username, password);
         if (shouldBeUploaded!=null) {
-            new FtpUploadTask().execute(shouldBeUploaded);
+            new FtpUploadTask().execute(shouldBeUploaded, workdir);
         }
     }
 
@@ -370,12 +392,11 @@ public class DirecotyBrowserActivity extends AppCompatActivity implements Adapte
             String fileName = incomingFileList.get(position).getName();
             new FtpDownloadTask().execute(fileName);
         }
-
-
     }
 
     public void toSSH(View view) {
         Intent intent = new Intent(this, ListSSHCommandsActivity.class);
         startActivity(intent);
     }
+
 }

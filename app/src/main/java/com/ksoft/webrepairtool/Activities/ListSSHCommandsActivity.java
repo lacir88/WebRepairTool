@@ -18,7 +18,7 @@ import com.jcraft.jsch.Session;
 import com.ksoft.webrepairtool.Beans.SSHCommand;
 import com.ksoft.webrepairtool.DBHandlers.SSHDBHandler;
 import com.ksoft.webrepairtool.R;
-import com.ksoft.webrepairtool.Activities.SSHCommandsPage.NewSSHCommandActivity;
+import com.ksoft.webrepairtool.Activities.NewSSHCommandsPage.NewSSHCommandActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -80,15 +80,18 @@ public class ListSSHCommandsActivity extends AppCompatActivity implements Adapte
                 channelssh.connect();
                 //Toast.makeText(getApplicationContext(), "Server recieved request, waiting for reply...", Toast.LENGTH_SHORT).show();
                 int timeCounter;
-
+                String proba="";
+                int replyLength=0;
                 //Addig varunk amig még semmi valasz nem jött
-                for (timeCounter = 0; timeCounter < 10 /*&& baos.toString().equals("") */; timeCounter++) {
-                    String proba = baos.toString();
-                    android.os.SystemClock.sleep(100);
+                for (timeCounter = 0; /*timeCounter < 10 */ proba.equals("") ; timeCounter++) {
+                    proba = baos.toString();
+                    //replyLength=proba.length();
+                    android.os.SystemClock.sleep(500);
                 }
-                //Ha elkezdett jöni, akkor még 200 milisec van , hogy megérkezzen minden.
-                android.os.SystemClock.sleep(200);
+                //Ha elkezdett jöni, akkor még 2000 milisec van , hogy megérkezzen minden.
+                android.os.SystemClock.sleep(2000);
 
+                //String proba = baos.toString();
                 channelssh.disconnect();
             } catch (JSchException e) {
                 Log.d("WebRepairTool","JSchException");

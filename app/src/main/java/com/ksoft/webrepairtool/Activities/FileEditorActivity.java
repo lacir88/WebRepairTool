@@ -23,6 +23,7 @@ public class FileEditorActivity extends AppCompatActivity {
     String username ;
     String password;
     String filename;
+    String workdir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class FileEditorActivity extends AppCompatActivity {
         username = intent.getStringExtra("username");
         password = intent.getStringExtra("password");
         filename = intent.getStringExtra("filename");
+        workdir = intent.getStringExtra("workdir");
 
         try {
             FileInputStream fis = openFileInput(filename);
@@ -100,6 +102,7 @@ public class FileEditorActivity extends AppCompatActivity {
         intent.putExtra("username",username);
         intent.putExtra("password",password);
         intent.putExtra("shouldBeUploaded",filename);
+        intent.putExtra("workdir",workdir);
         startActivity(intent);
     }
 }

@@ -1,4 +1,4 @@
-package com.ksoft.webrepairtool.Activities.SSHCommandsPage;
+package com.ksoft.webrepairtool.Activities.NewSSHCommandsPage;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
